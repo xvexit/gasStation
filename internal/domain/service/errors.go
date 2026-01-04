@@ -13,4 +13,5 @@ var (
 	ErrInvalidOperationStatus                = errors.New("this operation status must be CREATED or CONFIRMED")
 	ErrCounterWasChangedDuringRefuelCreation = errors.New("counter was changed during refuel creation")
 	ErrTryUseChangePrice                     = errors.New("you already have active price, try function change price")
+	ErrNotFoundOper                          = errors.New("not found operations")
 )

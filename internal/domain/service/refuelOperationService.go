@@ -297,7 +297,34 @@ func (s *RefuelOperationService) GetStatistics(
 	return stats, nil
 }
 
-// GetAveragePricePerLiter()
+// Получить среднюю цену за литр за промежуток
+func (s *RefuelOperationService) GetAveragePricePerLiter(ctx context.Context, from, to time.Time) (float64, error) {
+	status := RefuelStatusConfirmed
+	filter := interfaces.RefuelFilter{
+		DateFrom: &from,
+		DateTo:   &to,
+		Status:   &status,
+	}
+
+	operations, err := s.refuelRepo.Find(ctx, filter)
+	if err != nil {
+		return 0, err
+	}
+
+	var sum float64
+
+	if len(operations) < 1 {
+		return 0, ErrNotFoundOper
+	}
+
+	for _, op := range operations {
+		sum += op.PricePerLiter
+	}
+
+	avr := sum / float64(len(operations))
+
+	return avr, nil
+}
 
 // Получить потраченные литры за промежуток
 func (s *RefuelOperationService) GetTotalLiters(ctx context.Context, from, to time.Time) (float64, error) {

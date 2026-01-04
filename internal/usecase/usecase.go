@@ -66,12 +66,12 @@ func (u *UseCase) GetPendingOperations(ctx context.Context) ([]entity.RefuelOper
 }
 
 // Получить историю заправок за период
-func (u *UseCase) GetRefuelHistory(ctx context.Context, from, to time.Time, status string)([]entity.RefuelOperation, error){
+func (u *UseCase) GetRefuelHistory(ctx context.Context, from, to time.Time, status string) ([]entity.RefuelOperation, error) {
 	filter := interfaces.RefuelFilter{
 		DateFrom: &from,
-		DateTo: &to,
-		Status: &status,
-	}	
+		DateTo:   &to,
+		Status:   &status,
+	}
 	return u.refuelRepo.Find(ctx, filter)
 }
 
@@ -134,12 +134,16 @@ func (u *UseCase) GetCurrent(ctx context.Context) (entity.CounterState, error) {
 }
 
 // Смена значения счетчика перед заправкой (с проверкой на большесть значения)
-func (u *UseCase) UpdateCounterDuringRefuel(ctx context.Context, val int)(entity.CounterState, error){
+func (u *UseCase) UpdateCounterDuringRefuel(ctx context.Context, val int) (entity.CounterState, error) {
 	return u.counterService.UpdateCounterDuringRefuel(ctx, val)
 }
 
 // Смена значения счетчика без валидации
-func (u *UseCase) UpdateCounter(ctx context.Context, val int)(entity.CounterState, error){
+func (u *UseCase) UpdateCounter(ctx context.Context, val int) (entity.CounterState, error) {
 	return u.counterService.UpdateCounter(ctx, val)
 }
 
+// Получить среднюю цену за литр за промежуток
+func (u *UseCase) GetAveragePricePerLiter(ctx context.Context, from, to time.Time) (float64, error) {
+	return u.refuelService.GetAveragePricePerLiter(ctx, from, to)
+}
