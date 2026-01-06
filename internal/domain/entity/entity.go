@@ -2,8 +2,6 @@ package entity
 
 import (
 	"time"
-
-	"github.com/google/uuid"
 )
 
 // Текущая цена топлива
@@ -23,7 +21,7 @@ type CounterState struct {
 
 // Операция заправки
 type RefuelOperation struct {
-	ID               string     // уникальный идентификатор операции
+	ID               int64      // уникальный идентификатор операции
 	AmountPaid       float64    // сумма денег, внесённая клиентом
 	CalculatedLiters float64    // литры, рассчитанные по цене
 	PricePerLiter    float64    // цена за литр на момент операции (копия)
@@ -43,8 +41,4 @@ type LogRecord struct {
 	Message   string    // краткое описание события
 	Meta      string    // дополнительные данные в JSON (может быть пустым)
 	CreatedAt time.Time // время события
-}
-
-func GenerateIDRefuelOperation() string {
-	return uuid.New().String()
 }
