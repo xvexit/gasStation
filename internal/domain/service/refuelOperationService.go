@@ -63,7 +63,7 @@ func (s *RefuelOperationService) CreateRefuel(ctx context.Context, amountPaid fl
 	counterAfter := counterBeforeRefill + int(liters*LitersPerCounterUnit)
 
 	operation := entity.RefuelOperation{
-		ID:               entity.GenerateIDRefuelOperation(),
+		ID:               0,
 		AmountPaid:       amountPaid,
 		CalculatedLiters: liters,
 		PricePerLiter:    priceObj.PricePerLiter,
