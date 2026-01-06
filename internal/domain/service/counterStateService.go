@@ -54,6 +54,7 @@ func (s *CounterStateService) UpdateCounter(ctx context.Context, newValue int) (
 	}
 
 	updated := entity.CounterState{
+		Id: 0,
 		CurrentValue: newValue,
 		UpdatedAt:    time.Now(),
 	}

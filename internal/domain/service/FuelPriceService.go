@@ -19,7 +19,7 @@ func NewFuelPriceService(repo interfaces.FuelPriceRepository) *FuelPriceService 
 }
 
 // Получить активную цену
-func (f *FuelPriceService) GetActive(ctx context.Context)(entity.FuelPrice, error){
+func (f *FuelPriceService) GetActive(ctx context.Context) (entity.FuelPrice, error) {
 	return f.repo.GetActive(ctx)
 }
 
@@ -71,7 +71,7 @@ func (f *FuelPriceService) ChangePrice(ctx context.Context, newPriceRub float64)
 
 func (f *FuelPriceService) setPrice(newPriceRub float64) entity.FuelPrice {
 	return entity.FuelPrice{
-		ID:            entity.GenerateIDFuelPrice(),
+		ID:            0,
 		PricePerLiter: newPriceRub,
 		CreatedAt:     time.Now(),
 		IsActive:      true,
