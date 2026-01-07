@@ -39,7 +39,7 @@ func (s *CounterStateService) validateUpdateCounter(ctx context.Context, newValu
 		return err
 	}
 
-	if current.CurrentValue > newValue {
+	if current.CurrentValue > int64(newValue) {
 		return ErrNewValueCanNotBeSmallerThanOld
 	}
 
@@ -55,7 +55,7 @@ func (s *CounterStateService) UpdateCounter(ctx context.Context, newValue int) (
 
 	updated := entity.CounterState{
 		Id: 0,
-		CurrentValue: newValue,
+		CurrentValue: int64(newValue),
 		UpdatedAt:    time.Now(),
 	}
 

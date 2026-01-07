@@ -49,7 +49,7 @@ func (s *RefuelOperationService) CreateRefuel(ctx context.Context, amountPaid fl
 	}
 
 	// Проверка на идентичность введенного счетчика и имеющегося
-	if currentCounter.CurrentValue != counterBeforeRefill {
+	if currentCounter.CurrentValue != int64(counterBeforeRefill) {
 		// Обновление счетчика введенным значением
 		if _, err := s.counterService.UpdateCounter(ctx, counterBeforeRefill); err != nil {
 			return entity.RefuelOperation{}, err
@@ -67,10 +67,10 @@ func (s *RefuelOperationService) CreateRefuel(ctx context.Context, amountPaid fl
 		AmountPaid:       amountPaid,
 		CalculatedLiters: liters,
 		PricePerLiter:    priceObj.PricePerLiter,
-		CounterBefore:    counterBeforeRefill,
-		CounterAfter:     counterAfter,
+		CounterBefore:    int64(counterBeforeRefill),
+		CounterAfter:     int64(counterAfter),
 		Status:           RefuelStatusCreated,
-		CreatedAt:        time.Now(),
+		CreatedAt:        time.Now(),	
 	}
 
 	// Создание новой записи
@@ -120,7 +120,8 @@ func (s *RefuelOperationService) ConfirmRefuel(ctx context.Context, id string) (
 	}
 
 	// Обновление счетчика
-	if _, err := s.counterService.UpdateCounterDuringRefuel(ctx, operation.CounterAfter); err != nil {
+	counterAfterInt := int(operation.CounterAfter)
+	if _, err := s.counterService.UpdateCounterDuringRefuel(ctx, counterAfterInt); err != nil {
 		return entity.RefuelOperation{}, err
 	}
 
@@ -155,7 +156,8 @@ func (s *RefuelOperationService) CancelRefuel(ctx context.Context, id string, re
 		if err != nil {
 			return entity.RefuelOperation{}, err
 		}
-		if _, errr := s.counterService.UpdateCounter(ctx, counter.CurrentValue-int(operation.CalculatedLiters*LitersPerCounterUnit)); errr != nil {
+		newCounterValue := int(counter.CurrentValue)-int(operation.CalculatedLiters*LitersPerCounterUnit)
+		if _, errr := s.counterService.UpdateCounter(ctx, newCounterValue); errr != nil {
 			return entity.RefuelOperation{}, errr
 		}
 	}
