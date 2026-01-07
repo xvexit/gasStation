@@ -15,7 +15,7 @@ type FuelPrice struct {
 // Текущее состояние счётчика колонки/фургона
 type CounterState struct {
 	Id           int64     // уникальный идентификатор операции
-	CurrentValue int       // текущее показание счётчика в литрах
+	CurrentValue int64       // текущее показание счётчика в литрах
 	UpdatedAt    time.Time // время последнего обновления
 }
 
@@ -25,8 +25,8 @@ type RefuelOperation struct {
 	AmountPaid       float64    // сумма денег, внесённая клиентом
 	CalculatedLiters float64    // литры, рассчитанные по цене
 	PricePerLiter    float64    // цена за литр на момент операции (копия)
-	CounterBefore    int        // показание счётчика до заправки
-	CounterAfter     int        // показание счётчика после заправки
+	CounterBefore    int64        // показание счётчика до заправки
+	CounterAfter     int64        // показание счётчика после заправки
 	Status           string     // статус операции: Created, Confirmed, Cancelled и т.п.
 	CreatedAt        time.Time  // дата и время создания операции
 	CancelledAt      *time.Time // дата и время отмены (опционально)

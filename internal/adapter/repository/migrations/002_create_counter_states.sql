@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS counter_states(
     id BIGSERIAL PRIMARY KEY,
-    current_value INTEGER NOT NULL,
+    current_value BIGINT NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
